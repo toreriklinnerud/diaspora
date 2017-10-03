@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #   Copyright (c) 2010-2011, Diaspora Inc.  This file is
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
@@ -976,6 +978,17 @@ describe User, :type => :model do
           )
         )
       end
+    end
+  end
+
+  describe "#export" do
+    it "doesn't change the filename when the user is saved" do
+      user = FactoryGirl.create(:user)
+
+      filename = user.export.filename
+      user.save!
+
+      expect(User.find(user.id).export.filename).to eq(filename)
     end
   end
 
